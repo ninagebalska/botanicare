@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -49,6 +50,17 @@ class HomePage extends StatelessWidget {
             ),
           ),
         ]),
+      ),
+      bottomNavigationBar: CurvedNavigationBar(
+        backgroundColor: const Color(0xFFF6FEF7),
+        items: const <Widget>[
+          Icon(Icons.favorite_border_outlined, size: 35, color: Colors.white),
+          Icon(Icons.home_outlined, size: 35, color: Colors.white),
+          Icon(Icons.person_outlined, size: 35, color: Colors.white),
+        ],
+        onTap: (index) {},
+        color: Colors.green,
+        height: 55,
       ),
     );
   }
