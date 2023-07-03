@@ -28,7 +28,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(18.0),
-        child: ListView(children: [
+        child: Column(children: [
           Text('Let\'s Find Your Plants!',
               style: GoogleFonts.lato(fontSize: 28)),
           const SizedBox(height: 16),
@@ -49,6 +49,19 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
+          Container(
+            decoration: BoxDecoration(color: Color(0xFFA4C2A5)),
+            child: Column(
+              children: [
+                Image.network(
+                    'https://img.freepik.com/darmowe-zdjecie/roslina-monstera-deliciosa-w-doniczce_53876-133119.jpg?w=2000'),
+                Text(
+                  'Monstera deliciosa',
+                  textAlign: TextAlign.left,
+                ),
+              ],
+            ),
+          )
         ]),
       ),
       bottomNavigationBar: CurvedNavigationBar(
