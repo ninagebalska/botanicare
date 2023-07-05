@@ -49,19 +49,12 @@ class HomePage extends StatelessWidget {
               ),
             ),
           ),
-          Container(
-            decoration: BoxDecoration(color: Color(0xFFA4C2A5)),
-            child: Column(
-              children: [
-                Image.network(
-                    'https://img.freepik.com/darmowe-zdjecie/roslina-monstera-deliciosa-w-doniczce_53876-133119.jpg?w=2000'),
-                Text(
-                  'Monstera deliciosa',
-                  textAlign: TextAlign.left,
-                ),
-              ],
-            ),
-          )
+          GridView.builder(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 2,
+              ),
+              itemBuilder: (context, index) => PlantTile()),
         ]),
       ),
       bottomNavigationBar: CurvedNavigationBar(
@@ -74,6 +67,31 @@ class HomePage extends StatelessWidget {
         onTap: (index) {},
         color: Colors.green,
         height: 55,
+      ),
+    );
+  }
+}
+
+class PlantTile extends StatelessWidget {
+  const PlantTile({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 50,
+      height: 30,
+      decoration: BoxDecoration(color: Color(0xFFA4C2A5)),
+      child: Column(
+        children: [
+          Image.network(
+              'https://img.freepik.com/darmowe-zdjecie/roslina-monstera-deliciosa-w-doniczce_53876-133119.jpg?w=2000'),
+          Text(
+            'Monstera deliciosa',
+            textAlign: TextAlign.left,
+          ),
+        ],
       ),
     );
   }
