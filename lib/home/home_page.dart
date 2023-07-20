@@ -1,73 +1,83 @@
+import 'package:botanicare/home/cubit/home_cubit.dart';
+import 'package:botanicare/home/pages/catalog_page/catalog_page.dart';
+import 'package:botanicare/home/pages/favourites_page/favourities_page.dart';
+import 'package:botanicare/home/pages/user_profile_page/user_profile_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 
 class HomePage extends StatelessWidget {
-  HomePage({super.key});
-
-  final _searchController = TextEditingController();
+  const HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFFF6FEF7),
-      appBar: AppBar(
-        title: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
-            Text('Botanicare'),
-            SizedBox(width: 4),
-            Icon(Icons.spa_outlined),
-          ],
-        ),
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(
-            bottom: Radius.circular(36),
-          ),
-        ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(18.0),
-        child: Column(children: [
-          Text('Let\'s Find Your Plants!',
-              style: GoogleFonts.lato(fontSize: 28)),
-          const SizedBox(height: 16),
-          TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-              hintText: 'Search...',
-              suffixIcon: IconButton(
-                icon: const Icon(Icons.clear),
-                onPressed: () => _searchController.clear(),
+    return BlocProvider(
+      create: (context) => HomeCubit(),
+      child: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          return Scaffold(
+            backgroundColor: const Color(0xFFF6FEF7),
+            appBar: AppBar(
+              title: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: const [
+                  Text('Botanicare'),
+                  SizedBox(width: 4),
+                  Icon(Icons.spa_outlined),
+                ],
               ),
-              prefixIcon: IconButton(
-                icon: const Icon(Icons.search),
-                onPressed: () {},
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(16.0),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(36),
+                ),
               ),
             ),
-          ),
-          GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 2,
-              ),
-              itemBuilder: (context, index) => PlantTile()),
-        ]),
+            body: Builder(
+              builder: (context) {
+                if (state.pageIndex == 0) {
+                  return const FavouritiesPage();
+                }
+
+                if (state.pageIndex == 2) {
+                  return const UserProfile();
+                }
+
+                return CatalogPage();
+              },
+            ),
+            bottomNavigationBar: const _NavigationBar(
+              pageIndex: 1,
+            ),
+          );
+        },
       ),
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: const Color(0xFFF6FEF7),
-        items: const <Widget>[
-          Icon(Icons.favorite_border_outlined, size: 35, color: Colors.white),
-          Icon(Icons.home_outlined, size: 35, color: Colors.white),
-          Icon(Icons.person_outlined, size: 35, color: Colors.white),
-        ],
-        onTap: (index) {},
-        color: Colors.green,
-        height: 55,
-      ),
+    );
+  }
+}
+
+class _NavigationBar extends StatelessWidget {
+  const _NavigationBar({
+    Key? key,
+    required this.pageIndex,
+  }) : super(key: key);
+
+  final int pageIndex;
+
+  @override
+  Widget build(BuildContext context) {
+    return CurvedNavigationBar(
+      backgroundColor: const Color(0xFFF6FEF7),
+      items: const <Widget>[
+        Icon(Icons.favorite_border_outlined, size: 35, color: Colors.white),
+        Icon(Icons.home_outlined, size: 35, color: Colors.white),
+        Icon(Icons.person_outlined, size: 35, color: Colors.white),
+      ],
+      onTap: (newPageIndex) {
+        context.read<HomeCubit>().changeIndexOnTap(newPageIndex);
+      },
+      color: Colors.green,
+      height: 50,
     );
   }
 }
